@@ -47,6 +47,50 @@
     {
         operand = sqrt(operand);
     }
+    else if ([operation isEqual:@"+/-"])
+    {
+        operand = -1 * operand;
+    }
+    else if ([operation isEqual:@"1/x"])
+    {
+        // invert the operand is not dividing by 0
+        if (operand)
+        {
+            operand = 1 / operand;
+        }
+    }
+    else if ([operation isEqual:@"sin"])
+    {
+        operand = sin(operand);
+    }
+    else if ([operation isEqual:@"cos"])
+    {
+        operand = cos(operand);
+    }
+    else if ([operation isEqual:@"Store"])
+    {
+        memoryStore = operand;
+    }
+    else if ([operation isEqual:@"Recall"])
+    {
+        operand = memoryStore;
+    }
+    else if ([operation isEqual:@"Mem+"])
+    {
+        operand += memoryStore;
+    }
+    else if ([operation isEqual:@"MemC"])
+    {
+        memoryStore = 0;
+    }
+    // clear everything
+    else if ([operation isEqual:@"C"])
+    {
+        operand = 0;
+        memoryStore = 0;
+        waitingOperation = @"";
+        waitingOperand = 0;
+    }
     else
     {
         [self performWaitingOperation];
