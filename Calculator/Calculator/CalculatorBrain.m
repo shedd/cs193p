@@ -10,10 +10,7 @@
 
 @implementation CalculatorBrain
 
-- (void)setOperand:(double)anOperand
-{
-    operand = anOperand;
-}
+@synthesize operand;
 
 - (void)performWaitingOperation
 {

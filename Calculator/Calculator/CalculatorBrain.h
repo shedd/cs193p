@@ -9,13 +9,14 @@
 
 
 @interface CalculatorBrain : NSObject {
-    double operand;
+@private
     NSString *waitingOperation;
     double waitingOperand;
     double memoryStore;
 }
 
-- (void)setOperand:(double)anOperand;
+@property double operand;
+
 - (double)performOperation:(NSString *)operation;
 - (void)performWaitingOperation;
 

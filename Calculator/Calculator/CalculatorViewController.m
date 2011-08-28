@@ -8,6 +8,10 @@
 
 #import "CalculatorViewController.h"
 
+@interface CalculatorViewController()
+@property (readonly) CalculatorBrain *brain;
+@end
+
 @implementation CalculatorViewController
 
 - (CalculatorBrain *)brain
@@ -22,7 +26,7 @@
 
 - (IBAction)digitPressed:(UIButton *)sender
 {
-    NSString *digit = [[sender titleLabel] text];
+    NSString *digit = sender.titleLabel.text;
                         
     if(userIsInTheMiddleOfTypingANumber)
     {
@@ -30,14 +34,14 @@
         if([@"." isEqual:digit])
         {
             // only allow one decimal point in a number
-            if ([[display text] rangeOfString:@"."].location != NSNotFound)
+            if ([display.text rangeOfString:@"."].location != NSNotFound)
             {
                 // blank digit if a decimal point is found
                 digit = @"";
             }
         }
         
-        [display setText:[[display text] stringByAppendingString:digit]];
+        display.text = [display.text stringByAppendingString:digit];
     }
     else
     {
@@ -47,7 +51,7 @@
             digit = [@"0" stringByAppendingString:digit];
         }
         
-        [display setText:digit];
+        display.text = digit;
         userIsInTheMiddleOfTypingANumber = YES;
     }
 }
@@ -56,7 +60,7 @@
 {
     if(userIsInTheMiddleOfTypingANumber)
     {
-        [[self brain] setOperand:[[display text] doubleValue]];
+        self.brain.operand = [display.text doubleValue];
         userIsInTheMiddleOfTypingANumber = NO;
     }
     
@@ -66,7 +70,7 @@
     if ([operation isEqual:@"1/x"] || [@"/" isEqual:operation])
     {
         // invert the display is not dividing by 0
-        if (![[display text] doubleValue])
+        if (![display.text doubleValue])
         {
             UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error" message:@"You can't divide by zero." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
             [alert show];
@@ -74,10 +78,10 @@
     }
     
     // perform the operation
-    double result = [[self brain] performOperation:operation];
+    [self.brain performOperation:operation];
     
     //send to display
-    [display setText:[NSString stringWithFormat:@"%g", result]];
+    display.text = [NSString stringWithFormat:@"%g", self.brain.operand];
 }
 
 @end
